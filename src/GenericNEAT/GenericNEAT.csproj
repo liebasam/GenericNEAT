@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GeneticSharp" Version="2.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="LiebasamUtils">
       <HintPath>..\..\..\LiebasamUtils\src\LiebasamUtils\bin\Release\netstandard2.0\LiebasamUtils.dll</HintPath>
     </Reference>
