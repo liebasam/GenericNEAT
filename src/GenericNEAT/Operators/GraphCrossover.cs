@@ -26,21 +26,20 @@ namespace GenericNEAT.Operators
             EdgeCrossover = edgeCrossover;
         }
 
+        /// <summary>
+        /// Cross two graphs, assuming the first has a greater fitness.
+        /// </summary>
+        /// <param name="parents"></param>
+        /// <returns></returns>
         public IList<IChromosome> Cross(IList<IChromosome> parents)
         {
-            var p1 = parents[0] as GraphChromosomeBase;
-            var p2 = parents[1] as GraphChromosomeBase;
+            var p1 = parents[0] as GraphChromosome;
+            var p2 = parents[1] as GraphChromosome;
             if (p1 is null || p2 is null)
                 throw new InvalidOperationException();
-            // Ensure p1 is the more fit parent
-            if (p2.Fitness.Value > p1.Fitness.Value)
-            {
-                p1 = p2;
-                p2 = parents[0] as GraphChromosomeBase;
-            }
 
             // "Disjoint genes are inherited from the more fit parent."
-            var child = p1.Clone() as GraphChromosomeBase;
+            var child = p1.Clone() as GraphChromosome;
             foreach (var vert in p1.Vertices)
                 if (p2.ContainsVertex(vert.ID))
                 {

@@ -23,7 +23,7 @@ namespace GenericNEAT.Operators
 
         public void Mutate(IChromosome chromosome, float probability)
         {
-            if (!(chromosome is GraphChromosomeBase graph))
+            if (!(chromosome is GraphChromosome graph))
                 throw new InvalidOperationException();
             if (RandomizationProvider.Current.GetDouble() < probability)
             {
@@ -32,7 +32,7 @@ namespace GenericNEAT.Operators
             }
         }
 
-        void SplitEdge(GraphChromosomeBase graph, Edge<IChromosome> edge)
+        void SplitEdge(GraphChromosome graph, Edge<IChromosome> edge)
         {
             uint newID = Factory.GetID(edge.IDFrom, edge.IDTo);
             graph.RemoveEdge(edge.IDFrom, edge.IDTo);

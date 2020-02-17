@@ -6,37 +6,39 @@ using System.Linq;
 
 namespace GenericNEAT
 {
-    public abstract class GraphChromosomeBase : Graph<IChromosome, IChromosome>, IChromosome
+    public class GraphChromosome : Graph<IChromosome, IChromosome>, IChromosome
     {
         public double? Fitness { get; set; }
 
         public int Length => Vertices.Sum(v => v.Value.Length) + Edges.Sum(e => e.Value.Length);
 
         #region Constructors
-        public GraphChromosomeBase() : base() { }
+        public GraphChromosome() : base() { }
 
-        public GraphChromosomeBase(int capacity) : base(capacity) { }
+        public GraphChromosome(int capacity) : base(capacity) { }
 
-        public GraphChromosomeBase(IEnumerable<Vertex<IChromosome>> vertices, IEnumerable<Edge<IChromosome>> edges) 
+        public GraphChromosome(IEnumerable<Vertex<IChromosome>> vertices, IEnumerable<Edge<IChromosome>> edges) 
             : base(vertices, edges) { }
         #endregion
 
         #region Methods
-        public abstract IChromosome CreateNew();
+        public virtual IChromosome CreateNew() => new GraphChromosome(
+            CreateNewVertices(), CreateNewEdges());
 
-        public abstract IChromosome Clone();
+        public virtual IChromosome Clone() => new GraphChromosome(
+            CloneVertices(), CloneEdges());
 
         /// <summary>
         /// Generates a new vertex.
         /// </summary>
         /// <returns></returns>
-        public abstract IChromosome GenerateVertex();
+        public virtual IChromosome GenerateVertex() => default;
 
         /// <summary>
         /// Generates a new edge.
         /// </summary>
         /// <returns></returns>
-        public abstract IChromosome GenerateEdge();
+        public virtual IChromosome GenerateEdge() => default;
 
         /// <summary>
         /// Compare fitness.

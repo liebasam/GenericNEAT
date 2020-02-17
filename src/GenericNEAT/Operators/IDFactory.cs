@@ -6,7 +6,10 @@ namespace GenericNEAT.Operators
     public sealed class IDFactory
     {
         public uint NextID { get; private set; }
-        readonly SortedDictionary<ulong, uint> idCache;
+        readonly SortedDictionary<ulong, uint> idCache = new SortedDictionary<ulong, uint>();
+
+        public IDFactory() { }
+        public IDFactory(uint nextID) { NextID = nextID; }
 
         /// <summary>
         /// Gets the ID of a vertex placed on the given edge.
@@ -14,9 +17,14 @@ namespace GenericNEAT.Operators
         public uint GetID(uint idFrom, uint idTo)
         {
             ulong id = Edge.ZipIDs(idFrom, idTo);
-            if (idCache.ContainsKey(id))
-                return idCache[id];
-            return NextID++;
+            lock (idCache)
+            {
+                if (idCache.ContainsKey(id))
+                    return idCache[id];
+                else
+                    idCache.Add(id, NextID);
+                return NextID++;
+            }
         }
 
         /// <summary>
@@ -25,8 +33,7 @@ namespace GenericNEAT.Operators
         /// </summary>
         public void ClearCacheAndIncrementNextID()
         {
-            idCache.Clear();
-            NextID++;
+            lock (idCache) { idCache.Clear(); }
         }
     }
 }

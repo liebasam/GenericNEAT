@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28729.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericNEAT", "src\GenericNEAT\GenericNEAT.csproj", "{FADD0EEA-C6AD-48F0-97B2-F15D973077EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericNEAT", "src\GenericNEAT\GenericNEAT.csproj", "{FADD0EEA-C6AD-48F0-97B2-F15D973077EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericNEAT.Tests", "test\GenericNEAT.Tests\GenericNEAT.Tests.csproj", "{94A200A4-2CCC-45B6-A4B0-B9F7D7E5F228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "sandbox\ConsoleApp\ConsoleApp.csproj", "{576AA55E-085C-4649-B4B8-72E781028082}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "sandbox\ConsoleApp\ConsoleApp.csproj", "{576AA55E-085C-4649-B4B8-72E781028082}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericNEAT.Tests", "test\GenericNEAT.Tests\GenericNEAT.Tests.csproj", "{BE6041C4-E7CD-43E7-B127-7F1BF25F0CBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{FADD0EEA-C6AD-48F0-97B2-F15D973077EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FADD0EEA-C6AD-48F0-97B2-F15D973077EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FADD0EEA-C6AD-48F0-97B2-F15D973077EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94A200A4-2CCC-45B6-A4B0-B9F7D7E5F228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94A200A4-2CCC-45B6-A4B0-B9F7D7E5F228}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94A200A4-2CCC-45B6-A4B0-B9F7D7E5F228}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94A200A4-2CCC-45B6-A4B0-B9F7D7E5F228}.Release|Any CPU.Build.0 = Release|Any CPU
 		{576AA55E-085C-4649-B4B8-72E781028082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{576AA55E-085C-4649-B4B8-72E781028082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{576AA55E-085C-4649-B4B8-72E781028082}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{576AA55E-085C-4649-B4B8-72E781028082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE6041C4-E7CD-43E7-B127-7F1BF25F0CBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE6041C4-E7CD-43E7-B127-7F1BF25F0CBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE6041C4-E7CD-43E7-B127-7F1BF25F0CBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE6041C4-E7CD-43E7-B127-7F1BF25F0CBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

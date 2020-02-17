@@ -6,7 +6,7 @@ using System.Linq;
 namespace GenericNEAT.Operators
 {
     /// <summary>
-    /// Mutates the vertices and edges of a <see cref="GraphChromosomeBase"/>.
+    /// Mutates the vertices and edges of a <see cref="GraphChromosome"/>.
     /// </summary>
     public class GraphValueMutation : IMutation
     {
@@ -36,7 +36,7 @@ namespace GenericNEAT.Operators
 
         #region Constructors
         /// <summary>
-        /// Create a <see cref="GraphChromosomeBase"/> mutation which calls a
+        /// Create a <see cref="GraphChromosome"/> mutation which calls a
         /// separate mutation on each vertex and each edge. The probability
         /// for <see cref="GraphValueMutation"/> is passed to both vertex
         /// and edge mutations.
@@ -52,7 +52,7 @@ namespace GenericNEAT.Operators
         }
 
         /// <summary>
-        /// Create a <see cref="GraphChromosomeBase"/> mutation which calls a
+        /// Create a <see cref="GraphChromosome"/> mutation which calls a
         /// separate mutation on each vertex and each edge. The probability
         /// passed to each mutation is specified.
         /// </summary>
@@ -72,7 +72,7 @@ namespace GenericNEAT.Operators
 
         public void Mutate(IChromosome chromosome, float probability)
         {
-            if (!(chromosome is GraphChromosomeBase graph))
+            if (!(chromosome is GraphChromosome graph))
                 throw new InvalidOperationException();
 
             float prob = VertexProbability.HasValue ? VertexProbability.Value : probability;

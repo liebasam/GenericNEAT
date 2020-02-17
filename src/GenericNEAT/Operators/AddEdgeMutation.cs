@@ -14,13 +14,13 @@ namespace GenericNEAT.Operators
 
         public void Mutate(IChromosome chromosome, float probability)
         {
-            if (!(chromosome is GraphChromosomeBase graph))
+            if (!(chromosome is GraphChromosome graph))
                 throw new InvalidOperationException();
             if (RandomizationProvider.Current.GetDouble() < probability)
                 AddEdge(graph);
         }
 
-        void AddEdge(GraphChromosomeBase graph)
+        void AddEdge(GraphChromosome graph)
         {
             // No edges to add
             if (graph.EdgeCount == graph.VertexCount * graph.VertexCount)
