@@ -64,6 +64,8 @@
     <Compile Include="Operators\TGraphValueMutation.cs" />
     <Compile Include="Operators\TGraphCrossover.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Samples\NeuralNets\TNNetChromosome.cs" />
+    <Compile Include="Samples\NeuralNets\TNNet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
