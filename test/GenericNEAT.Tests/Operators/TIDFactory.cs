@@ -16,6 +16,9 @@ namespace GenericNEAT.Operators.Tests
                 Assert.AreEqual(0u, factory.GetID(0, 0));
                 Assert.AreEqual(1u, factory.GetID(0, 1));
                 Assert.AreEqual(2u, factory.GetID(1, 0));
+
+                Assert.AreEqual(3u, factory.GetID(0));
+                Assert.AreEqual(4u, factory.GetID(1));
             }
 
             [TestMethod]
@@ -24,6 +27,8 @@ namespace GenericNEAT.Operators.Tests
                 var factory = new IDFactory();
                 factory.GetID(0, 0);
                 Assert.AreEqual(0u, factory.GetID(0, 0));
+                factory.GetID(1);
+                Assert.AreEqual(1u, factory.GetID(1));
             }
 
             [TestMethod]
@@ -32,9 +37,13 @@ namespace GenericNEAT.Operators.Tests
                 var factory = new IDFactory();
                 factory.GetID(0, 0);
                 factory.GetID(0, 1);
+                factory.GetID(0);
+                factory.GetID(1);
                 factory.ClearCacheAndIncrementNextID();
-                Assert.AreEqual(2u, factory.GetID(0, 0));
-                Assert.AreEqual(3u, factory.GetID(0, 1));
+                Assert.AreEqual(4u, factory.GetID(0, 0));
+                Assert.AreEqual(5u, factory.GetID(0, 1));
+                Assert.AreEqual(6u, factory.GetID(0));
+                Assert.AreEqual(7u, factory.GetID(1));
             }
         }
     }
