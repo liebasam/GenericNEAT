@@ -4,6 +4,7 @@ using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Chromosomes;
 using LiebasamUtils.Collections;
 using System.Linq;
+using GenericNEAT.Chromosomes;
 
 namespace GenericNEAT.Operators.Tests
 {
@@ -15,9 +16,9 @@ namespace GenericNEAT.Operators.Tests
         [TestInitialize]
         public void TestInit()
         {
-            var verts = TestHelpers.VertexCollection(0, 2);
-            var edges = TestHelpers.EdgeCollection((0, 2));
-            Graph = new GraphChromosome(verts, edges);
+            var verts = TestHelpers.VertexCollection(0, 2).ToArray();
+            var edges = TestHelpers.EdgeCollection((0, 2)).ToArray();
+            Graph = new GraphChromosome(verts[0].Value, edges[0].Value, verts, edges);
         }
 
         

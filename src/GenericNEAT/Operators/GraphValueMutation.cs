@@ -1,4 +1,5 @@
-﻿using GeneticSharp.Domain.Chromosomes;
+﻿using GenericNEAT.Chromosomes;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using System;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace GenericNEAT.Operators
     /// <summary>
     /// Mutates the vertices and edges of a <see cref="GraphChromosome"/>.
     /// </summary>
-    public class GraphValueMutation : IMutation
+    public class GraphValueMutation : GraphMutationBase
     {
         #region Properties
         /// <summary>
@@ -30,8 +31,6 @@ namespace GenericNEAT.Operators
         /// Probability passed to <see cref="EdgeMutation"/>.
         /// </summary>
         public float? EdgeProbability { get; set; } = null;
-
-        public bool IsOrdered => true;
         #endregion
 
         #region Constructors
@@ -70,11 +69,8 @@ namespace GenericNEAT.Operators
         }
         #endregion
 
-        public void Mutate(IChromosome chromosome, float probability)
+        protected override void PerformMutation(IGraphChromosome graph, float probability)
         {
-            if (!(chromosome is GraphChromosome graph))
-                throw new InvalidOperationException();
-
             float prob = VertexProbability.HasValue ? VertexProbability.Value : probability;
             foreach (var vert in graph.Vertices.ToArray())
             {

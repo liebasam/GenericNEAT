@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GenericNEAT.Chromosomes;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using LiebasamUtils.Collections;
@@ -20,7 +21,7 @@ namespace GenericNEAT.Operators.Tests
         {
             var verts = TestHelpers.VertexCollection(0, 2).ToArray();
             var edges = TestHelpers.EdgeCollection((0, 0), (0, 2)).ToArray();
-            Graph1 = new GraphChromosome(verts, edges);
+            Graph1 = new GraphChromosome(verts[0].Value, edges[0].Value, verts, edges);
 
             verts = TestHelpers.VertexCollection(0, 1, 3).ToArray();
             foreach (var vert in verts)
@@ -28,7 +29,7 @@ namespace GenericNEAT.Operators.Tests
             edges = TestHelpers.EdgeCollection((0, 0), (0, 1), (0, 3)).ToArray();
             foreach (var edge in edges)
                 edge.Cast<IntegerChromosome>().Value.FlipGene(0);
-            Graph2 = new GraphChromosome(verts, edges);
+            Graph2 = new GraphChromosome(verts[0].Value, edges[0].Value, verts, edges);
         }
 
         [TestMethod]

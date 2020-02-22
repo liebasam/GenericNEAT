@@ -1,4 +1,5 @@
-﻿using GeneticSharp.Domain.Chromosomes;
+﻿using GenericNEAT.Chromosomes;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using GeneticSharp.Domain.Randomizations;
 using LiebasamUtils.Collections;
@@ -32,13 +33,13 @@ namespace GenericNEAT.Operators
             }
         }
 
-        void SplitEdge(GraphChromosome graph, Edge<IChromosome> edge)
+        void SplitEdge(IGraphChromosome graph, Edge<IChromosome> edge)
         {
             uint newID = Factory.GetID(edge.IDFrom, edge.IDTo);
             graph.RemoveEdge(edge.IDFrom, edge.IDTo);
-            graph.AddVertex(newID, graph.GenerateVertex());
+            graph.AddVertex(newID, graph.CreateNewVertex());
             graph.AddEdge(edge.IDFrom, newID, edge.Value);
-            graph.AddEdge(newID, edge.IDTo, graph.GenerateEdge());
+            graph.AddEdge(newID, edge.IDTo, graph.CreateNewEdge());
         }
     }
 }

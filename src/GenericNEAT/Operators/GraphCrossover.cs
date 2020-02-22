@@ -1,4 +1,5 @@
-﻿using GeneticSharp.Domain.Chromosomes;
+﻿using GenericNEAT.Chromosomes;
+using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
 using GeneticSharp.Domain.Randomizations;
 using System;
@@ -6,37 +7,13 @@ using System.Collections.Generic;
 
 namespace GenericNEAT.Operators
 {
-    public sealed class GraphCrossover : ICrossover
+    public sealed class GraphCrossover : GraphCrossoverBase
     {
-        public ICrossover VertexCrossover { get; set; }
-        public ICrossover EdgeCrossover { get; set; }
+        public GraphCrossover(ICrossover vertexCrossover, ICrossover edgeCrossover) : base(vertexCrossover, edgeCrossover) { }
 
-        public int ParentsNumber => 2;
-        public int ChildrenNumber => 1;
-        public int MinChromosomeLength => 1;
-        public bool IsOrdered => true;
-
-        public GraphCrossover(ICrossover vertexCrossover, ICrossover edgeCrossover)
+        protected override IGraphChromosome PerformCrossover(IGraphChromosome p1, IGraphChromosome p2) 
         {
-            if (vertexCrossover is null)
-                throw new ArgumentNullException(nameof(vertexCrossover));
-            if (edgeCrossover is null)
-                throw new ArgumentNullException(nameof(edgeCrossover));
-            VertexCrossover = vertexCrossover;
-            EdgeCrossover = edgeCrossover;
-        }
-
-        /// <summary>
-        /// Cross two graphs, assuming the first has a greater fitness.
-        /// </summary>
-        /// <param name="parents"></param>
-        /// <returns></returns>
-        public IList<IChromosome> Cross(IList<IChromosome> parents)
-        {
-            var p1 = parents[0] as GraphChromosome;
-            var p2 = parents[1] as GraphChromosome;
-            if (p1 is null || p2 is null)
-                throw new InvalidOperationException();
+            IList<IChromosome> parents = new IChromosome[2];
 
             // "Disjoint genes are inherited from the more fit parent."
             var child = p1.Clone() as GraphChromosome;
@@ -56,9 +33,7 @@ namespace GenericNEAT.Operators
                     child[edge.IDFrom, edge.IDTo] = EdgeCrossover.Cross(parents)[0];
                 }
 
-            var ret = new List<IChromosome>(1);
-            ret.Add(child);
-            return ret;
+            return child;
         }
     }
 }
