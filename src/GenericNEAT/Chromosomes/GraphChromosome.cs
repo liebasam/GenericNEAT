@@ -41,6 +41,11 @@ namespace GenericNEAT.Chromosomes
             EdgeTemplate = edgeTemplate;
         }
 
+        internal IChromosome GenerateEdge()
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Creates a GraphChromosome with the given vertex and edge templates
         /// and initial vertices and edges.
@@ -67,8 +72,8 @@ namespace GenericNEAT.Chromosomes
         public override IChromosome CreateNew() => 
             new GraphChromosome(VertexTemplate, EdgeTemplate, CreateNewVertices(), CreateNewEdges());
 
-        protected override IChromosome CreateNewEdge() => EdgeTemplate.CreateNew();
+        public override IChromosome CreateNewEdge() => EdgeTemplate.CreateNew();
 
-        protected override IChromosome CreateNewVertex() => VertexTemplate.CreateNew();
+        public override IChromosome CreateNewVertex() => VertexTemplate.CreateNew();
     }
 }

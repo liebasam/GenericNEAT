@@ -41,20 +41,14 @@ namespace GenericNEAT.Chromosomes
 
         public abstract IChromosome CreateNew();
 
-        /// <summary>
-        /// Returns a new vertex.
-        /// </summary>
-        protected abstract IChromosome CreateNewVertex();
+        public abstract IChromosome CreateNewVertex();
+
+        public abstract IChromosome CreateNewEdge();
 
         /// <summary>
         /// Returns a new vertex for the given ID.
         /// </summary>
         protected virtual IChromosome CreateNewVertex(uint id) => CreateNewVertex();
-
-        /// <summary>
-        /// Returns a new edge.
-        /// </summary>
-        protected abstract IChromosome CreateNewEdge();
 
         /// <summary>
         /// Returns a new edge for the given ID.
