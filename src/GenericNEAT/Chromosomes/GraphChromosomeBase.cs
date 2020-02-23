@@ -46,14 +46,14 @@ namespace GenericNEAT.Chromosomes
         public abstract IChromosome CreateNewEdge();
 
         /// <summary>
-        /// Returns a new vertex for the given ID.
+        /// Adds a new vertex to the graph.
         /// </summary>
-        protected virtual IChromosome CreateNewVertex(uint id) => CreateNewVertex();
+        public void AddVertex(uint id) => AddVertex(id, CreateNewVertex());
 
         /// <summary>
-        /// Returns a new edge for the given ID.
+        /// Adds a new edge to the graph.
         /// </summary>
-        protected virtual IChromosome CreateNewEdge(uint idFrom, uint idTo) => CreateNewEdge();
+        public void AddEdge(uint idFrom, uint idTo) => AddEdge(idFrom, idTo, CreateNewEdge());
 
         /// <summary>
         /// Calls <see cref="IChromosome.Clone"/> on each vertex.
@@ -117,7 +117,7 @@ namespace GenericNEAT.Chromosomes
 
         public virtual Gene GetGene(int index) => throw new NotImplementedException();
 
-        public virtual Gene[] GetGenes() => throw new NotImplementedException();
+        public virtual Gene[] GetGenes() => new Gene[0]; //throw new NotImplementedException();
 
         public virtual void ReplaceGene(int index, Gene gene) => throw new NotImplementedException();
 

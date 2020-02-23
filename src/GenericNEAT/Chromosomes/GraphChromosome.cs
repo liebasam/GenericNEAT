@@ -7,8 +7,10 @@ namespace GenericNEAT.Chromosomes
 {
     public class GraphChromosome : GraphChromosomeBase
     {
-        readonly IChromosome VertexTemplate, EdgeTemplate;
+        public IChromosome VertexTemplate { get; }
+        public IChromosome EdgeTemplate { get; }
 
+        #region Constructors
         /// <summary>
         /// Creates a GraphChromosome with the given vertex and edge templates.
         /// </summary>
@@ -41,11 +43,6 @@ namespace GenericNEAT.Chromosomes
             EdgeTemplate = edgeTemplate;
         }
 
-        internal IChromosome GenerateEdge()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Creates a GraphChromosome with the given vertex and edge templates
         /// and initial vertices and edges.
@@ -65,7 +62,9 @@ namespace GenericNEAT.Chromosomes
             VertexTemplate = vertexTemplate;
             EdgeTemplate = edgeTemplate;
         }
+        #endregion
 
+        #region Methods
         public override IChromosome Clone() => 
             new GraphChromosome(VertexTemplate, EdgeTemplate, CloneVertices(), CloneEdges());
 
@@ -75,5 +74,6 @@ namespace GenericNEAT.Chromosomes
         public override IChromosome CreateNewEdge() => EdgeTemplate.CreateNew();
 
         public override IChromosome CreateNewVertex() => VertexTemplate.CreateNew();
+        #endregion
     }
 }
