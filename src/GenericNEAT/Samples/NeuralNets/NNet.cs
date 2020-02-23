@@ -3,15 +3,16 @@ using LiebasamUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace GenericNEAT.Samples.NeuralNets
 {
     public class NNet
     {
+        #region Fields
         protected readonly NNetChromosome Template;
-        public int InputSize { get; }
-        public int OutputSize { get; }
+        public int InputCount { get; }
+        public int OutputCount { get; }
+
         /// <summary>
         /// Activation for inputs, outputs, and hidden.
         /// </summary>
@@ -28,22 +29,18 @@ namespace GenericNEAT.Samples.NeuralNets
         /// weight of the connection going from j to i.
         /// </summary>
         protected readonly float[][] Connections;
+        #endregion
 
-        /// <summary>
-        /// Current outputs of the network.
-        /// </summary>
-        public float[] CurrentOutputs => Activations
-            .Skip(InputSize)
-            .Take(OutputSize)
-            .ToArray();
-
+        #region Constructors
         public NNet(NNetChromosome template)
         {
             if (template is null)
                 throw new ArgumentNullException();
-            InputSize = Template.InputCount;
-            OutputSize = Template.OutputCount;
+            Template = template;
+            InputCount = Template.InputCount;
+            OutputCount = Template.OutputCount;
             Activations = new float[template.VertexCount];
+            _tempActivations = new float[template.VertexCount - template.InputCount];
             var indexToID = new Dictionary<uint, int>(template.VertexCount);
             int curIndex = 0;
             Bias = template.OutputNeurons
@@ -54,7 +51,7 @@ namespace GenericNEAT.Samples.NeuralNets
                     return ToFloatingPoint(v.Value);
                 })
                 .ToArray();
-            Connections = template.VertexIDs.Skip(InputSize).Select(v2 =>
+            Connections = template.VertexIDs.Skip(InputCount).Select(v2 =>
                 template.VertexIDs.Select(v1 =>
                 {
                     if (template.ContainsEdge(v1, v2))
@@ -64,22 +61,70 @@ namespace GenericNEAT.Samples.NeuralNets
                 }).ToArray())
                 .ToArray();
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Transfer function producing a neuron's output.
         /// </summary>
-        protected virtual float TransferFunction(float x) => (float)Math.Tanh(x);
+        public virtual float TransferFunction(float x) => (float)(Math.Exp(x) / (1 + Math.Exp(x)));
+
+        /// <summary>
+        /// Sets the input of a particular input neuron.
+        /// </summary>
+        public void SetInput(int index, float value)
+        {
+            if (index < 0 || index >= InputCount)
+                throw new IndexOutOfRangeException();
+            Activations[index] = value;
+        }
 
         /// <summary>
         /// Sets the inputs to the network.
         /// </summary>
         public void SetInputs(IEnumerable<float> inputs)
         {
-            if (inputs.Count() != InputSize)
+            if (inputs.Count() != InputCount)
                 throw new IndexOutOfRangeException();
             int i = 0;
             foreach (var input in inputs)
                 Activations[i++] = input;
+        }
+
+        /// <summary>
+        /// Gets the output at a specific index.
+        /// </summary>
+        public float GetOutput(int i)
+        {
+            if (i < 0 || i >= OutputCount)
+                throw new IndexOutOfRangeException();
+            return Activations[i + InputCount];
+        }
+
+        /// <summary>
+        /// Gets all the outputs to the network.
+        /// </summary>
+        /// <returns></returns>
+        public float[] GetOutputs() => Activations
+            .Skip(InputCount)
+            .Take(OutputCount)
+            .ToArray();
+
+        /// <summary>
+        /// Gets the internal state of the network.
+        /// </summary>
+        public float[] GetState() => (float[])Activations.Clone();
+
+        /// <summary>
+        /// Sets the internal state of the network.
+        /// </summary>
+        public void SetState(float[] state)
+        {
+            if (state is null)
+                throw new ArgumentNullException(nameof(state));
+            if (state.Length != Activations.Length)
+                throw new IndexOutOfRangeException();
+            state.CopyTo(Activations, 0);
         }
 
         /// <summary>
@@ -88,8 +133,10 @@ namespace GenericNEAT.Samples.NeuralNets
         public void Activate()
         {
             FastMath.MatrixMultiply(Activations, Connections, _tempActivations);
-            ApplyTransferFunction();
-            _tempActivations.CopyTo(Activations, InputSize);
+            FastMath.Add(Bias, _tempActivations, _tempActivations);
+            for (int i = 0; i < _tempActivations.Length; i++)
+                _tempActivations[i] = TransferFunction(_tempActivations[i]);
+            _tempActivations.CopyTo(Activations, InputCount);
         }
 
         /// <summary>
@@ -101,13 +148,38 @@ namespace GenericNEAT.Samples.NeuralNets
             Activate();
         }
 
-        protected float ToFloatingPoint(IChromosome floatingPointChromosome) =>
-            (float)(floatingPointChromosome as FloatingPointChromosome).ToFloatingPoint();
-
-        private void ApplyTransferFunction()
+        /// <summary>
+        /// Resets the network to its initial state.
+        /// </summary>
+        public void Reset()
         {
-            for (int i = 0; i < _tempActivations.Length; i++)
-                _tempActivations[i] = TransferFunction(_tempActivations[i]);
+            Array.Clear(Activations, 0, Activations.Length);
         }
+
+        /// <summary>
+        /// Gets the weight for particular connection.
+        /// </summary>
+        /// <param name="iFrom">Index of the source.</param>
+        /// <param name="iTo">Index of the target.</param>
+        public float GetWeight(int iFrom, int iTo)
+        {
+            if (iTo < InputCount)
+                return 0f;
+            return Connections[iTo - InputCount][iFrom];
+        }
+
+        /// <summary>
+        /// Gets the bias for a particular neuron.
+        /// </summary>
+        public float GetBias(int i)
+        {
+            if (i < InputCount)
+                return 0;
+            return Bias[i - InputCount];
+        }
+
+        protected float ToFloatingPoint(IChromosome floatingPointChromosome) =>
+            (float)(floatingPointChromosome as FloatingPointChromosome).ToFloatingPoints()[0];
+        #endregion
     }
 }

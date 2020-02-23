@@ -10,58 +10,107 @@ namespace GenericNEAT.Samples.NeuralNets.Tests
         [TestClass]
         public class Constructors
         {
-            [TestClass]
-            public class Failure
+            [TestMethod]
+            public void Failure()
             {
-                [TestMethod]
-                public void LayerSizes()
-                {
-                    Assert.Fail();
-                }
-
-                [TestMethod]
-                public void SpecifyNumber()
-                {
-                    Assert.Fail();
-                }
+                Assert.ThrowsException<ArgumentOutOfRangeException>(
+                    () => new NNetChromosome(0, 1));
+                Assert.ThrowsException<ArgumentOutOfRangeException>(
+                    () => new NNetChromosome(1, 0));
+                Assert.ThrowsException<ArgumentOutOfRangeException>(
+                    () => new NNetChromosome(1, 1, -1));
             }
 
-            [TestClass]
-            public class Success
+            [TestMethod]
+            public void Success()
             {
-                [TestMethod]
-                public void SuccessLayerSizes()
-                {
-                    var net = new NNetChromosome(1, 2, 2, 1);
-                    Assert.AreEqual(1, net.InputCount);
-                    Assert.AreEqual(2, net.OutputCount);
-
-                    var ids = net.InputNeurons.Select(v => v.ID).ToArray();
-                    Assert.AreEqual(1, ids.Length);
-                    Assert.AreEqual(0u, ids[0]);
-                    ids = net.OutputNeurons.Select(v => v.ID).ToArray();
-                    Assert.AreEqual(2, ids.Length);
-                    Assert.AreEqual(1u, ids[0]);
-                    Assert.AreEqual(2u, ids[1]);
-                    ids = net.HiddenNeurons.Select(v => v.ID).ToArray();
-                    Assert.AreEqual(3, ids.Length);
-                    Assert.AreEqual(3u, ids[0]);
-                    Assert.AreEqual(4u, ids[1]);
-                    Assert.AreEqual(5u, ids[2]);
-                }
-
-                [TestMethod]
-                public void SpecifyNumber()
-                {
-                    Assert.Fail();
-                }
+                var net = new NNetChromosome(1, 2, 1);
+                Assert.AreEqual(4, net.VertexCount);
+                Assert.AreEqual(1, net.InputCount);
+                Assert.AreEqual(2, net.OutputCount);
+                Assert.AreEqual(1, net.HiddenCount);
             }
         }
 
-        [TestMethod]
-        public void Properties()
+        [TestClass]
+        public class Fields
         {
-            Assert.Fail();
+            static NNetChromosome net;
+
+            [ClassInitialize]
+            public static void ClassInit(TestContext tc)
+            {
+                net = new NNetChromosome(1, 2, 1);
+            }
+
+            [TestMethod]
+            public void EnumerateInputs()
+            {
+                var ins = net.InputNeurons.ToArray();
+                Assert.AreEqual(1, ins.Length);
+                Assert.AreEqual(0u, ins[0].ID);
+            }
+
+            [TestMethod]
+            public void EnumerateOutputs()
+            {
+                var outs = net.OutputNeurons.ToArray();
+                Assert.AreEqual(2, outs.Length);
+                Assert.AreEqual(1u, outs[0].ID);
+                Assert.AreEqual(2u, outs[1].ID);
+            }
+
+            [TestMethod]
+            public void EnumerateHidden()
+            {
+                var hidden = net.HiddenNeurons.ToArray();
+                Assert.AreEqual(1, hidden.Length);
+                Assert.AreEqual(3u, hidden[0].ID);
+            }
+        }
+
+        [TestClass]
+        public class Methods
+        {
+            static NNetChromosome net;
+
+            [ClassInitialize]
+            public static void ClassInit(TestContext tc)
+            {
+                net = new NNetChromosome(1, 2, 1);
+            }
+
+            [TestMethod]
+            public void Clone()
+            {
+                var other = net.Clone() as NNetChromosome;
+                Assert.IsNotNull(other);
+                Assert.AreNotSame(net, other);
+                Assert.AreEqual(net.VertexCount, other.VertexCount);
+                Assert.AreEqual(net.InputCount, other.InputCount);
+                Assert.AreEqual(net.OutputCount, other.OutputCount);
+                Assert.AreEqual(net.HiddenCount, other.HiddenCount);
+                Assert.AreEqual(net[0].ToString(), other[0].ToString());
+                Assert.AreEqual(net[1].ToString(), other[1].ToString());
+                Assert.AreEqual(net[2].ToString(), other[2].ToString());
+                Assert.AreEqual(net[3].ToString(), other[3].ToString());
+            }
+
+            [TestMethod]
+            public void CreateNew()
+            {
+                var other = net.CreateNew() as NNetChromosome;
+                Assert.IsNotNull(other);
+                Assert.AreNotSame(net, other);
+                Assert.AreEqual(net.VertexCount, other.VertexCount);
+                Assert.AreEqual(net.InputCount, other.InputCount);
+                Assert.AreEqual(net.OutputCount, other.OutputCount);
+                Assert.AreEqual(net.HiddenCount, other.HiddenCount);
+                Assert.AreNotEqual(net[0].ToString(), other[0].ToString());
+                Assert.AreNotEqual(net[1].ToString(), other[1].ToString());
+                Assert.AreNotEqual(net[2].ToString(), other[2].ToString());
+                Assert.AreNotEqual(net[3].ToString(), other[3].ToString());
+            }
         }
     }
 }
