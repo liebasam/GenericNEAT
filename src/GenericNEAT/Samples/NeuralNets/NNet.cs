@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GenericNEAT.Samples.NeuralNets
 {
-    public class NNet
+    public class NNet : IBlackBox
     {
         #region Fields
         protected readonly NNetChromosome Template;
@@ -70,47 +70,6 @@ namespace GenericNEAT.Samples.NeuralNets
         public virtual float TransferFunction(float x) => (float)(Math.Exp(x) / (1 + Math.Exp(x)));
 
         /// <summary>
-        /// Sets the input of a particular input neuron.
-        /// </summary>
-        public void SetInput(int index, float value)
-        {
-            if (index < 0 || index >= InputCount)
-                throw new IndexOutOfRangeException();
-            Activations[index] = value;
-        }
-
-        /// <summary>
-        /// Sets the inputs to the network.
-        /// </summary>
-        public void SetInputs(IEnumerable<float> inputs)
-        {
-            if (inputs.Count() != InputCount)
-                throw new IndexOutOfRangeException();
-            int i = 0;
-            foreach (var input in inputs)
-                Activations[i++] = input;
-        }
-
-        /// <summary>
-        /// Gets the output at a specific index.
-        /// </summary>
-        public float GetOutput(int i)
-        {
-            if (i < 0 || i >= OutputCount)
-                throw new IndexOutOfRangeException();
-            return Activations[i + InputCount];
-        }
-
-        /// <summary>
-        /// Gets all the outputs to the network.
-        /// </summary>
-        /// <returns></returns>
-        public float[] GetOutputs() => Activations
-            .Skip(InputCount)
-            .Take(OutputCount)
-            .ToArray();
-
-        /// <summary>
         /// Gets the internal state of the network.
         /// </summary>
         public float[] GetState() => (float[])Activations.Clone();
@@ -127,9 +86,34 @@ namespace GenericNEAT.Samples.NeuralNets
             state.CopyTo(Activations, 0);
         }
 
-        /// <summary>
-        /// Activates the network.
-        /// </summary>
+        public void SetInput(int index, float value)
+        {
+            if (index < 0 || index >= InputCount)
+                throw new IndexOutOfRangeException();
+            Activations[index] = value;
+        }
+
+        public void SetInputs(IEnumerable<float> inputs)
+        {
+            if (inputs.Count() != InputCount)
+                throw new IndexOutOfRangeException();
+            int i = 0;
+            foreach (var input in inputs)
+                Activations[i++] = input;
+        }
+
+        public float GetOutput(int i)
+        {
+            if (i < 0 || i >= OutputCount)
+                throw new IndexOutOfRangeException();
+            return Activations[i + InputCount];
+        }
+
+        public float[] GetOutputs() => Activations
+            .Skip(InputCount)
+            .Take(OutputCount)
+            .ToArray();
+
         public void Activate()
         {
             FastMath.MatrixMultiply(Activations, Connections, _tempActivations);
@@ -139,18 +123,12 @@ namespace GenericNEAT.Samples.NeuralNets
             _tempActivations.CopyTo(Activations, InputCount);
         }
 
-        /// <summary>
-        /// Sets the inputs and activates the network.
-        /// </summary>
-        public void Activate(IEnumerable<float> inputs)
+        public void Activate(int nSteps)
         {
-            SetInputs(inputs);
-            Activate();
+            for (int i = 0; i < nSteps; i++)
+                Activate();
         }
-
-        /// <summary>
-        /// Resets the network to its initial state.
-        /// </summary>
+        
         public void Reset()
         {
             Array.Clear(Activations, 0, Activations.Length);
