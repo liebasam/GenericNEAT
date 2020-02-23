@@ -1,8 +1,6 @@
 ﻿using GenericNEAT.Chromosomes;
 using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Crossovers;
-using GeneticSharp.Domain.Randomizations;
-using System;
 using System.Collections.Generic;
 
 namespace GenericNEAT.Operators
@@ -16,7 +14,7 @@ namespace GenericNEAT.Operators
             IList<IChromosome> parents = new IChromosome[2];
 
             // "Disjoint genes are inherited from the more fit parent."
-            var child = p1.Clone() as GraphChromosome;
+            var child = p1.Clone() as IGraphChromosome;
             foreach (var vert in p1.Vertices)
                 if (p2.ContainsVertex(vert.ID))
                 {

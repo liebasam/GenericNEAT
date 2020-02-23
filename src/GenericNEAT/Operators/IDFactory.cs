@@ -12,6 +12,7 @@ namespace GenericNEAT.Operators
         public IDFactory() { }
         public IDFactory(uint nextID) { NextID = nextID; }
 
+        #region Methods
         /// <summary>
         /// Gets the ID of a vertex placed on the given edge.
         /// </summary>
@@ -54,5 +55,6 @@ namespace GenericNEAT.Operators
             lock (edgeIDCache) { edgeIDCache.Clear(); }
             lock (vertexIDCache) { vertexIDCache.Clear(); }
         }
+        #endregion
     }
 }

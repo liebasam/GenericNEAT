@@ -1,5 +1,4 @@
 ﻿using GenericNEAT.Chromosomes;
-using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
 using System;
 using System.Linq;

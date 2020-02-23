@@ -1,8 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GeneticSharp.Domain.Mutations;
-using GeneticSharp.Domain.Chromosomes;
-using LiebasamUtils.Collections;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using GenericNEAT.Chromosomes;
 
