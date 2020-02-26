@@ -48,12 +48,12 @@ namespace GenericNEAT.Chromosomes
         /// <summary>
         /// Adds a new vertex to the graph.
         /// </summary>
-        public void AddVertex(uint id) => AddVertex(id, CreateNewVertex());
+        public virtual void AddVertex(uint id) => AddVertex(id, CreateNewVertex());
 
         /// <summary>
         /// Adds a new edge to the graph.
         /// </summary>
-        public void AddEdge(uint idFrom, uint idTo) => AddEdge(idFrom, idTo, CreateNewEdge());
+        public virtual void AddEdge(uint idFrom, uint idTo) => AddEdge(idFrom, idTo, CreateNewEdge());
 
         /// <summary>
         /// Calls <see cref="IChromosome.Clone"/> on each vertex.
