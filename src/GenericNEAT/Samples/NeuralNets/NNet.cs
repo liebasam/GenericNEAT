@@ -67,7 +67,8 @@ namespace GenericNEAT.Samples.NeuralNets
         /// <summary>
         /// Transfer function producing a neuron's output.
         /// </summary>
-        public virtual float TransferFunction(float x) => (float)(Math.Exp(x) / (1 + Math.Exp(x)));
+        public virtual void ApplyTransferFunction(float[] arr) =>
+            FastMath.Max(arr, 0, arr);
 
         /// <summary>
         /// Gets the internal state of the network.
@@ -118,8 +119,7 @@ namespace GenericNEAT.Samples.NeuralNets
         {
             FastMath.MatrixMultiply(Activations, Connections, _tempActivations);
             FastMath.Add(Bias, _tempActivations, _tempActivations);
-            for (int i = 0; i < _tempActivations.Length; i++)
-                _tempActivations[i] = TransferFunction(_tempActivations[i]);
+            ApplyTransferFunction(_tempActivations);
             _tempActivations.CopyTo(Activations, InputCount);
         }
 
