@@ -57,6 +57,7 @@ namespace GenericNEAT.Populations
 
             // Reset the base generations list
             Generations.Clear();
+            GenerationsNumber = 0;
             base.CreateNewGeneration(specie.CurrentGeneration.Chromosomes);
         }
 
