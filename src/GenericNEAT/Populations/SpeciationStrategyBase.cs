@@ -26,8 +26,6 @@ namespace GenericNEAT.Populations
         /// the same specie.</param>
         public SpeciationStrategyBase(double distanceThreshold)
         {
-            if (distanceThreshold <= 0)
-                throw new ArgumentOutOfRangeException(nameof(distanceThreshold));
             DistanceThreshold = distanceThreshold;
         }
         #endregion
