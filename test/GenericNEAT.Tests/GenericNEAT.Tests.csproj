@@ -53,6 +53,8 @@
     <Compile Include="Operators\TIDFactory.cs" />
     <Compile Include="Operators\TGraphValueMutation.cs" />
     <Compile Include="Operators\TGraphCrossover.cs" />
+    <Compile Include="Operators\TAddEdgeMutation.cs" />
+    <Compile Include="Operators\TSplitEdgeMutation.cs" />
     <Compile Include="Populations\TSpecie.cs" />
     <Compile Include="Populations\TSpeciedPopulation.cs" />
     <Compile Include="Populations\TSpeciationStrategy.cs" />
