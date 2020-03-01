@@ -55,6 +55,8 @@
     <Compile Include="Operators\TGraphCrossover.cs" />
     <Compile Include="Populations\TSpecie.cs" />
     <Compile Include="Populations\TSpeciedPopulation.cs" />
+    <Compile Include="Populations\TSpeciationStrategy.cs" />
+    <Compile Include="Populations\TGraphSpeciationStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Samples\NeuralNets\FitnessTestHelpers.cs" />
     <Compile Include="Samples\NeuralNets\TNNetChromosome.cs" />
