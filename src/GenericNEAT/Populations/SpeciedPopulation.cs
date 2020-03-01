@@ -9,17 +9,11 @@ namespace GenericNEAT.Populations
 {
     public class SpeciedPopulation : Population
     {
-        readonly List<Specie> m_species;
-
+        #region Fields
         /// <summary>
         /// Enumerates the species in the population.
         /// </summary>
-        public ICollection<Specie> Species => m_species;
-
-        /// <summary>
-        /// Number of species in the population.
-        /// </summary>
-        public int SpecieCount => m_species.Count;
+        public IList<Specie> Species { get; set; }
 
         /// <summary>
         /// Minimum size of any specie.
@@ -32,7 +26,9 @@ namespace GenericNEAT.Populations
         /// ID that will be used when creating a new specie.
         /// </summary>
         protected uint NextSpecieID { get; set; }
+        #endregion
 
+        #region Constructors
         /// <summary>
         /// Creates a new specied population.
         /// </summary>
@@ -45,16 +41,18 @@ namespace GenericNEAT.Populations
                 throw new ArgumentOutOfRangeException(nameof(minSpecieSize));
             SpeciationStrategy = speciationStrategy;
             MinSpecieSize = minSpecieSize;
+            Species = new List<Specie>();
         }
+        #endregion
 
         #region Methods
         public override void CreateInitialGeneration()
         {
             // Reset the species list
-            m_species.Clear();
+            Species.Clear();
             var specie = new Specie(MinSpecieSize, MinSize, 0u, AdamChromosome);
             specie.CreateInitialGeneration();
-            m_species.Add(specie);
+            Species.Add(specie);
             NextSpecieID = 1u;
 
             // Reset the base generations list
@@ -75,11 +73,11 @@ namespace GenericNEAT.Populations
             }
 
             // Remove empty species
-            for (int i = 0; i < SpecieCount; i++)
+            for (int i = 0; i < Species.Count; i++)
             {
-                if (m_species[i].CurrentGeneration.Chromosomes.Count == 0)
+                if (Species[i].CurrentGeneration.Chromosomes.Count == 0)
                 {
-                    m_species.RemoveAt(i);
+                    Species.RemoveAt(i);
                     i--;
                 }
             }
@@ -88,8 +86,8 @@ namespace GenericNEAT.Populations
         public override void EndCurrentGeneration()
         {
             base.EndCurrentGeneration();
-            for (int i = 0; i < SpecieCount; i++)
-                m_species[i].EndCurrentGeneration();
+            for (int i = 0; i < Species.Count; i++)
+                Species[i].EndCurrentGeneration();
         }
 
         /// <summary>
@@ -98,16 +96,17 @@ namespace GenericNEAT.Populations
         /// </summary>
         protected Specie GetSpecie(IChromosome chromosome)
         {
-            for (int i = 0; i < SpecieCount; i++)
+            for (int i = 0; i < Species.Count; i++)
             {
-                var curSpecie = m_species[i];
+                var curSpecie = Species[i];
                 if (SpeciationStrategy.AreSameSpecies(chromosome, curSpecie.Centroid))
                     return curSpecie;
             }
 
             // Create a new specie
-            var specie = new Specie(MinSpecieSize, MaxSize, ++NextSpecieID, chromosome);
-            m_species.Add(specie);
+            var specie = new Specie(MinSpecieSize, MaxSize, NextSpecieID++, chromosome);
+            Species.Add(specie);
+            NextSpecieID++;
             return specie;
         }
         #endregion

@@ -24,6 +24,8 @@ namespace GenericNEAT.Populations
         /// </summary>
         public Specie(int minSize, int maxSize, uint id, IChromosome centroid) : base(minSize, maxSize, centroid)
         {
+            if (centroid is null)
+                throw new System.ArgumentNullException(nameof(centroid));
             ID = id;
             Centroid = centroid;
         }
