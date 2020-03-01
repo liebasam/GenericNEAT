@@ -70,6 +70,8 @@ namespace GenericNEAT.Samples.NeuralNets
         public virtual void ApplyTransferFunction(float[] arr) =>
             FastMath.Max(arr, 0, arr);
 
+        public virtual float ApplyTransferFunction(float x) => x > 0 ? x : 0;
+
         /// <summary>
         /// Gets the internal state of the network.
         /// </summary>

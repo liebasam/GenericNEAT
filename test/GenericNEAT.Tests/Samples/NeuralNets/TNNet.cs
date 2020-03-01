@@ -136,9 +136,9 @@ namespace GenericNEAT.Samples.NeuralNets.Tests
                 Net.Activate(); Net.Activate(); Net.Activate();
                 var state = Net.GetState();
                 expected[0] = 1;
-                expected[2] = Net.TransferFunction(Net.GetWeight(0, 2) + Net.GetBias(2));
-                expected[3] = Net.TransferFunction(Net.GetWeight(0, 3) + Net.GetBias(3));
-                expected[1] = Net.TransferFunction(
+                expected[2] = Net.ApplyTransferFunction(Net.GetWeight(0, 2) + Net.GetBias(2));
+                expected[3] = Net.ApplyTransferFunction(Net.GetWeight(0, 3) + Net.GetBias(3));
+                expected[1] = Net.ApplyTransferFunction(
                     (Net.GetWeight(2, 1) * expected[2]) + (Net.GetWeight(3, 1) * expected[3]) + Net.GetBias(1));
                 Assert.AreEqual(expected[0], state[0], float.Epsilon);
                 Assert.AreEqual(expected[1], state[1], float.Epsilon);
