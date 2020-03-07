@@ -1,17 +1,20 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Mutations;
+using GeneticSharp.Domain.Crossovers;
 using LiebasamUtils.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GenericNEAT.Populations;
 
-namespace GenericNEAT.Operators.Tests
+namespace GenericNEAT
 {
     public static class TestHelpers
     {
         public static FlipBitMutation UniformMutation = new FlipBitMutation();
+        public static UniformCrossover UniformCrossover = new UniformCrossover();
         public static IntegerChromosome IntegerChromosome() => new IntegerChromosome(0, 1);
 
         public static Vertex<IChromosome> Vertex(uint id) => new Vertex<IChromosome>(id, IntegerChromosome());
