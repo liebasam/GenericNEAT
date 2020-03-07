@@ -30,6 +30,9 @@ namespace GenericNEAT.Populations
             Centroid = centroid;
         }
 
+        /// <summary>
+        /// Create a specie with <see cref="Population.MaxSize"/> members.
+        /// </summary>
         public override void CreateInitialGeneration()
         {
             var tmp = MinSize;

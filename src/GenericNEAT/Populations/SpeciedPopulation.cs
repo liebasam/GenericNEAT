@@ -66,7 +66,7 @@ namespace GenericNEAT.Populations
             base.CreateNewGeneration(chromosomes);
 
             // Organize chromosomes by species
-            var lookup = chromosomes.ToLookup(c => GetSpecie(c));
+            var lookup = chromosomes.ToLookup(c => GetClosestSpecie(c));
             foreach (var group in lookup)
             {
                 // Add em to the correct specie
@@ -95,7 +95,7 @@ namespace GenericNEAT.Populations
         /// Returns the first specie to which <paramref name="chromosome"/>
         /// fits, according too <see cref="SpeciationStrategy"/>.
         /// </summary>
-        protected Specie GetSpecie(IChromosome chromosome)
+        protected Specie GetClosestSpecie(IChromosome chromosome)
         {
             for (int i = 0; i < Species.Count; i++)
             {
