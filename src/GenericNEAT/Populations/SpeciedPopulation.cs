@@ -9,17 +9,14 @@ namespace GenericNEAT.Populations
 {
     public class SpeciedPopulation : Population
     {
-        #region Fields
-        /// <summary>
-        /// Enumerates the species in the population.
-        /// </summary>
+        #region Properties
         public IList<Specie> Species { get; set; }
 
-        /// <summary>
-        /// Minimum size of any specie.
-        /// </summary>
         public int MinSpecieSize { get; set; }
 
+        /// <summary>
+        /// Method for dividing up individuals into species.
+        /// </summary>
         public ISpeciationStrategy SpeciationStrategy { get; set; }
 
         /// <summary>
