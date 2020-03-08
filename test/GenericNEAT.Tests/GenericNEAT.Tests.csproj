@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chromosomes\TGraphChromosome.cs" />
+    <Compile Include="Populations\TSpeciedOperatorsStrat.cs" />
     <Compile Include="TestHelpers.cs" />
     <Compile Include="Operators\TIDFactory.cs" />
     <Compile Include="Operators\TGraphValueMutation.cs" />

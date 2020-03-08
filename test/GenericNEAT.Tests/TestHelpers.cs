@@ -24,5 +24,8 @@ namespace GenericNEAT
         public static IEnumerable<Edge<IChromosome>> EdgeCollection(params (uint, uint)[] ids) => ids.Select(a => Edge(a.Item1, a.Item2));
 
         public static bool AnyIsTrue(IChromosome c) => c.GetGenes().Any(g => g.Value is true);
+
+        public static double GetValue(IChromosome floatingPointChomosome) =>
+            (floatingPointChomosome as FloatingPointChromosome).ToFloatingPoints()[0];
     }
 }
