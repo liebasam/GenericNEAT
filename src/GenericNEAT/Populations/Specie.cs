@@ -17,7 +17,7 @@ namespace GenericNEAT.Populations
         /// <summary>
         /// The defining member of the specie.
         /// </summary>
-        public IChromosome Centroid { get; }
+        public IChromosome Centroid { get; set; }
 
         /// <summary>
         /// Creates a new specie.
