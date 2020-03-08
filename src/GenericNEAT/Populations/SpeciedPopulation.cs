@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GenericNEAT.Populations
 {
-    public class SpeciedPopulation : Population
+    public class SpeciedPopulation : Population, ISpeciedPopulation
     {
         #region Properties
         public IList<Specie> Species { get; set; }
