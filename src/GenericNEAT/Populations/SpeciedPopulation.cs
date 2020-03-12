@@ -1,6 +1,5 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +11,17 @@ namespace GenericNEAT.Populations
         #region Properties
         public IList<Specie> Species { get; set; }
 
-        public int MinSpecieSize { get; set; }
+        private int _minSpecieSize;
+        public int MinSpecieSize
+        {
+            get => _minSpecieSize;
+            set
+            {
+                _minSpecieSize = value;
+                for (int i = 0; i < Species.Count; i++)
+                    Species[i].MinSize = _minSpecieSize;
+            }
+        }
 
         /// <summary>
         /// Method for dividing up individuals into species.
@@ -37,7 +46,7 @@ namespace GenericNEAT.Populations
             if (minSpecieSize < 0)
                 throw new ArgumentOutOfRangeException(nameof(minSpecieSize));
             SpeciationStrategy = speciationStrategy;
-            MinSpecieSize = minSpecieSize;
+            _minSpecieSize = minSpecieSize;
             Species = new List<Specie>();
         }
         #endregion
