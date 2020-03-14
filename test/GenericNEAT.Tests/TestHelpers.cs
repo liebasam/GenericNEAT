@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GenericNEAT.Populations;
+using GeneticSharp.Domain.Populations;
 
 namespace GenericNEAT
 {
@@ -27,5 +28,13 @@ namespace GenericNEAT
 
         public static double GetValue(IChromosome floatingPointChomosome) =>
             (floatingPointChomosome as FloatingPointChromosome).ToFloatingPoints()[0];
+
+        public static void SetFitnessesAndOrder(Population population, double fitness)
+        {
+            var g = population.CurrentGeneration;
+            for (int i = 0; i < g.Chromosomes.Count; i++)
+                g.Chromosomes[i].Fitness = fitness;
+            population.EndCurrentGeneration();
+        }
     }
 }
