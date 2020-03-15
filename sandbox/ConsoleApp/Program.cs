@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GenericNEAT.Populations;
+using GeneticSharp.Domain;
+using System;
 
 namespace ConsoleApp
 {
@@ -6,7 +8,8 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var strat = new SpeciedOperatorsStrategy(0.01);
+
         }
     }
 }
