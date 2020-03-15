@@ -1,25 +1,31 @@
 ﻿using GeneticSharp.Domain.Chromosomes;
 using GeneticSharp.Domain.Populations;
-using GeneticSharp.Domain.Randomizations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GenericNEAT.Populations
 {
-    public class SpeciedPopulation : Population
+    public class SpeciedPopulation : Population, ISpeciedPopulation
     {
-        #region Fields
-        /// <summary>
-        /// Enumerates the species in the population.
-        /// </summary>
+        #region Properties
         public IList<Specie> Species { get; set; }
 
-        /// <summary>
-        /// Minimum size of any specie.
-        /// </summary>
-        public int MinSpecieSize { get; set; }
+        private int _minSpecieSize;
+        public int MinSpecieSize
+        {
+            get => _minSpecieSize;
+            set
+            {
+                _minSpecieSize = value;
+                for (int i = 0; i < Species.Count; i++)
+                    Species[i].MinSize = _minSpecieSize;
+            }
+        }
 
+        /// <summary>
+        /// Method for dividing up individuals into species.
+        /// </summary>
         public ISpeciationStrategy SpeciationStrategy { get; set; }
 
         /// <summary>
@@ -40,7 +46,7 @@ namespace GenericNEAT.Populations
             if (minSpecieSize < 0)
                 throw new ArgumentOutOfRangeException(nameof(minSpecieSize));
             SpeciationStrategy = speciationStrategy;
-            MinSpecieSize = minSpecieSize;
+            _minSpecieSize = minSpecieSize;
             Species = new List<Specie>();
         }
         #endregion
@@ -66,7 +72,7 @@ namespace GenericNEAT.Populations
             base.CreateNewGeneration(chromosomes);
 
             // Organize chromosomes by species
-            var lookup = chromosomes.ToLookup(c => GetSpecie(c));
+            var lookup = chromosomes.ToLookup(c => GetFirstSpecie(c));
             foreach (var group in lookup)
             {
                 // Add em to the correct specie
@@ -95,7 +101,7 @@ namespace GenericNEAT.Populations
         /// Returns the first specie to which <paramref name="chromosome"/>
         /// fits, according too <see cref="SpeciationStrategy"/>.
         /// </summary>
-        protected Specie GetSpecie(IChromosome chromosome)
+        protected Specie GetFirstSpecie(IChromosome chromosome)
         {
             for (int i = 0; i < Species.Count; i++)
             {

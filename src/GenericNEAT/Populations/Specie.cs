@@ -17,7 +17,7 @@ namespace GenericNEAT.Populations
         /// <summary>
         /// The defining member of the specie.
         /// </summary>
-        public IChromosome Centroid { get; }
+        public IChromosome Centroid { get; set; }
 
         /// <summary>
         /// Creates a new specie.
@@ -30,6 +30,9 @@ namespace GenericNEAT.Populations
             Centroid = centroid;
         }
 
+        /// <summary>
+        /// Create a specie with <see cref="Population.MaxSize"/> members.
+        /// </summary>
         public override void CreateInitialGeneration()
         {
             var tmp = MinSize;
